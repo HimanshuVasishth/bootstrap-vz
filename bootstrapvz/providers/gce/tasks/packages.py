@@ -39,18 +39,21 @@ class GooglePackages(Task):
 		info.packages.add('google-compute-daemon')
 		info.packages.add('google-startup-scripts')
 		info.packages.add('python-gcimagebundle')
-		info.packages.add('gcutil')
 
 
-class InstallGSUtil(Task):
-	description = 'Install gsutil, not yet packaged'
+class InstallCloudSDK(Task):
+	description = 'Install Cloud SDK, not yet packaged'
 	phase = phases.package_installation
 
 	@classmethod
 	def run(cls, info):
-		log_check_call(['wget', 'http://storage.googleapis.com/pub/gsutil.tar.gz'])
-		gsutil_directory = os.path.join(info.root, 'usr/local/share/google')
+		cloudsdk_directory = os.path.join(info.root, 'usr/local/share/google')
 		gsutil_binary = os.path.join(os.path.join(info.root, 'usr/local/bin'), 'gsutil')
-		os.makedirs(gsutil_directory)
-		log_check_call(['tar', 'xaf', 'gsutil.tar.gz', '-C', gsutil_directory])
-		log_check_call(['ln', '-s', '../share/google/gsutil/gsutil', gsutil_binary])
+		gcutil_binary = os.path.join(os.path.join(info.root, 'usr/local/bin'), 'gcutil')
+		gcompute_binary = os.path.join(os.path.join(info.root, 'usr/local/bin'), 'gcompute')
+		log_check_call(['wget', 'https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk-coretools-linux-x86_64.tar.gz'])
+		os.makedirs(cloudsdk_directory)
+		log_check_call(['tar', 'xaf', 'google-cloud-sdk-coretools-linux-x86_64.tar.gz', '-C', cloudsdk_directory])
+		log_check_call(['ln', '-s', '../share/google/google-cloud-sdk/bin/gsutil', gsutil_binary])
+		log_check_call(['ln', '-s', '../share/google/google-cloud-sdk/bin/gcutil', gcutil_binary])
+		log_check_call(['ln', '-s', '../share/google/google-cloud-sdk/bin/gcompute', gcompute_binary])

@@ -29,7 +29,7 @@ def resolve_tasks(taskset, manifest):
 	                tasks.apt.ImportGoogleKey,
 	                tasks.packages.DefaultPackages,
 	                tasks.packages.GooglePackages,
-	                tasks.packages.InstallGSUtil,
+	                tasks.packages.InstallCloudSDK,
 
 	                tasks.configuration.GatherReleaseInformation,
 
